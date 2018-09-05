@@ -1,5 +1,4 @@
 const printInventory = require('../main/main');
-
 describe('pos', function () {
     var inputs;
 
@@ -16,8 +15,8 @@ describe('pos', function () {
             'ITEM000005'
         ];
     });
-
-    it('should print correct text', function () {
+    
+    xit('should print correct text', function () {
 
         spyOn(console, 'log');
 
@@ -38,5 +37,25 @@ describe('pos', function () {
             '**********************';
 
         expect(console.log).toHaveBeenCalledWith(expectText);
+    });
+
+    describe('item', function () {
+        let inputs;
+        beforeEach(function () {
+            inputs = [
+                'ITEM000001'
+            ];
+        });
+        it('should print one item', function () {
+            spyOn(console, 'log');
+            printInventory(inputs);
+            var expectText =
+                '***<没钱赚商店>购物清单***\n' +
+                '名称：雪碧，数量：1瓶，单价：3.00(元)，小计：3.00(元)\n' +
+                '----------------------\n' +
+                '总计：3.00(元)\n' +
+                '**********************';
+            expect(console.log).toHaveBeenCalledWith(expectText);
+        });
     });
 });
