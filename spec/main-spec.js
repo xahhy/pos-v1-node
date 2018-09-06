@@ -17,11 +17,6 @@ describe('pos', function () {
     });
     
     xit('should print correct text', function () {
-
-        spyOn(console, 'log');
-
-        printInventory(inputs);
-
         var expectText =
             '***<没钱赚商店>购物清单***\n' +
             '名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)\n' +
@@ -36,32 +31,51 @@ describe('pos', function () {
             '节省：7.50(元)\n' +
             '**********************';
 
-        expect(console.log).toHaveBeenCalledWith(expectText);
+        expect(printInventory(inputs)).toBe(expectText);
     });
 
     describe('item', function () {
         it('should print one item', function () {
-            spyOn(console, 'log');
-            printInventory(['ITEM000001']);
             var expectText =
                 '***<没钱赚商店>购物清单***\n' +
                 '名称：雪碧，数量：1瓶，单价：3.00(元)，小计：3.00(元)\n' +
                 '----------------------\n' +
                 '总计：3.00(元)\n' +
                 '**********************';
-            expect(console.log).toHaveBeenCalledWith(expectText);
+            expect(printInventory(['ITEM000001'])).toBe(expectText);
         });
 
         it('should print one item with quantity 2', function () {
-            spyOn(console, 'log');
-            printInventory(['ITEM000001', 'ITEM000001']);
             var expectText =
                 '***<没钱赚商店>购物清单***\n' +
                 '名称：雪碧，数量：2瓶，单价：3.00(元)，小计：6.00(元)\n' +
                 '----------------------\n' +
                 '总计：6.00(元)\n' +
                 '**********************';
-            expect(console.log).toHaveBeenCalledWith(expectText);
+            expect(printInventory(['ITEM000001', 'ITEM000001'])).toBe(expectText);
         });
+
+        it('should print one item with quantity 2 again', function () {
+            var expectText =
+                '***<没钱赚商店>购物清单***\n' +
+                '名称：雪碧，数量：2瓶，单价：3.00(元)，小计：6.00(元)\n' +
+                '----------------------\n' +
+                '总计：6.00(元)\n' +
+                '**********************';
+            expect(printInventory(['ITEM000001-2'])).toBe(expectText);
+        });
+
+        it('should print two items', function () {
+            var expectText =
+                '***<没钱赚商店>购物清单***\n' +
+                '名称：雪碧，数量：1瓶，单价：3.00(元)，小计：3.00(元)\n' +
+                '名称：荔枝，数量：1斤，单价：15.00(元)，小计：15.00(元)\n' +
+                '----------------------\n' +
+                '总计：18.00(元)\n' +
+                '**********************';
+
+            expect(printInventory(['ITEM000001', 'ITEM000003'])).toBe(expectText);
+        });
+
     });
 });

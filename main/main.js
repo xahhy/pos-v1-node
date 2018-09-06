@@ -29,14 +29,26 @@ function getTotal(items) {
     return items.map(item=>item.price * item.number).reduce((sum, price)=>sum+=price, 0).toFixed(2);
 }
 
-module.exports = function printInventory(inputs) {
+function getItems(inputs) {
     let itemNumber={};
-    let items;
     inputs.forEach(item => {
-        itemNumber[item] = itemNumber[item] ? ++itemNumber[item] : 1;
+        if(item.indexOf('-') > -1){
+            let [code,number]= item.split('-');
+            itemNumber[code] = itemNumber[code] ? itemNumber[code]+=number : number;
+        }else{
+            itemNumber[item] = itemNumber[item] ? ++itemNumber[item] : 1;
+        }
     });
-    items = [...Object.keys(itemNumber)].map(key=>Object.assign(getItem(key), {number: itemNumber[key]}));
-    let result = header + printItem(items[0]) + splitLine + printTotal(getTotal(items)) + tailLine;
+    return [...Object.keys(itemNumber)].map(key=>Object.assign(getItem(key), {number: itemNumber[key]}));
+}
+
+function printItems(items) {
+    return items.map(item=>printItem(item)).join('');
+}
+
+module.exports = function printInventory(inputs) {
+    let items = getItems(inputs);
+    let result = header + printItems(items) + splitLine + printTotal(getTotal(items)) + tailLine;
     console.log(result);
     return result;
 };
