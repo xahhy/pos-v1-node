@@ -16,7 +16,7 @@ describe('pos', function () {
         ];
     });
     
-    xit('should print correct text', function () {
+    it('should print correct text', function () {
         var expectText =
             '***<没钱赚商店>购物清单***\n' +
             '名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)\n' +
@@ -77,5 +77,21 @@ describe('pos', function () {
             expect(printInventory(['ITEM000001', 'ITEM000003'])).toBe(expectText);
         });
 
+        it('should print free item', function () {
+            var expectText =
+                '***<没钱赚商店>购物清单***\n' +
+                '名称：雪碧，数量：5瓶，单价：3.00(元)，小计：12.00(元)\n' +
+                '名称：方便面，数量：3袋，单价：4.50(元)，小计：9.00(元)\n' +
+                '----------------------\n' +
+                '挥泪赠送商品：\n' +
+                '名称：雪碧，数量：1瓶\n' +
+                '名称：方便面，数量：1袋\n' +
+                '----------------------\n' +
+                '总计：21.00(元)\n' +
+                '节省：7.50(元)\n' +
+                '**********************';
+
+            expect(printInventory(['ITEM000001-5', 'ITEM000005-3'])).toBe(expectText);
+        });
     });
 });
